@@ -11,3 +11,7 @@
 
 - To collaborate with me to refactor and enchance this beautiful component
 - Create npm package for vue developers (don't forget to contact me)
+
+### Demo
+
+- https://fancy-slider.firebaseapp.com/
