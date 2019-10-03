@@ -18,7 +18,8 @@
         </div>
       </div>
       <div class="slides-current">
-        {{ sliders[0].position }} <span class="color-grey">/ {{ slidersArr.length }}</span>
+        {{ sliders[0].position }}
+        <span class="color-grey">/ {{ slidersArr.length }}</span>
       </div>
     </div>
     <div class="slides-control__container slides-control__container--left" @click="prevSlide">
@@ -40,6 +41,15 @@
           />
         </svg>
       </div>
+    </div>
+    <div class="slider__dots">
+      <span
+        class="slider__dot"
+        v-for="slide in slidersArr.length"
+        :key="slide"
+        :style="{'background': sliders[0].position == slide ? '#ffdd2d' : '#dddfe0'}"
+        @click="jumpToSlide(slide)"
+      ></span>
     </div>
   </div>
 </template>
@@ -232,6 +242,9 @@ export default {
         opacity: 1,
         ease: Power3.easeOut
       });
+    },
+    jumpToSlide(slide) {
+      console.log(slide);
     }
   }
 };
@@ -239,10 +252,28 @@ export default {
 
 <style lang="scss">
 .slider {
-  margin: 10rem 20rem;
   display: grid;
   grid-template-columns: [button-prev-start] 75px [button-prev-end slides-start] 1fr [slides-end button-next-start] 75px [button-next-end];
-  grid-template-rows: 1fr;
+  grid-template-rows: 1fr 100px;
+  max-width: 110rem;
+  margin: 10rem auto;
+
+  &__dots {
+    grid-column: 1 / -1;
+    justify-self: center;
+    align-self: end;
+    display: grid;
+    grid-auto-flow: column;
+    grid-gap: 1rem;
+  }
+
+  &__dot {
+    border-radius: 50%;
+    width: .8rem;
+    height: .8rem;
+    background: black;
+    cursor: pointer;
+  }
 }
 
 .slides-control__container {
@@ -265,20 +296,20 @@ export default {
 
 .slides-control__container--left {
   grid-column: button-prev-start / button-prev-end;
-  grid-row: 1 / -1;
+  grid-row: 1 / span 1;
   transform: rotate(90deg);
 }
 
 .slides-control__container--right {
   grid-column: button-next-start / button-next-end;
-  grid-row: 1 / -1;
+  grid-row: 1 / span 1;
   transform: rotate(-90deg);
 }
 
 .slides {
   grid-column: slides-start / slides-end;
   position: relative;
-  grid-row: 1 / -1;
+  grid-row: 1 / span 1;
   height: 35rem;
 
   &-current {
@@ -288,9 +319,8 @@ export default {
     right: 5rem;
     position: absolute;
     border-radius: 20px;
-    // width: 5rem;
     text-align: center;
-    padding: .8rem 1rem;
+    padding: 0.8rem 1rem;
     background-color: rgba(62, 71, 87, 0.7);
     z-index: 10;
   }
