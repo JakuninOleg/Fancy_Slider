@@ -17,6 +17,9 @@
           </div>
         </div>
       </div>
+      <div class="slides-current">
+        {{ sliders[0].position }} <span class="color-grey">/ {{ slidersArr.length }}</span>
+      </div>
     </div>
     <div class="slides-control__container slides-control__container--left" @click="prevSlide">
       <div class="btn--slides-control">
@@ -240,7 +243,6 @@ export default {
   display: grid;
   grid-template-columns: [button-prev-start] 75px [button-prev-end slides-start] 1fr [slides-end button-next-start] 75px [button-next-end];
   grid-template-rows: 1fr;
-  // height: 45rem;
 }
 
 .slides-control__container {
@@ -278,6 +280,20 @@ export default {
   position: relative;
   grid-row: 1 / -1;
   height: 35rem;
+
+  &-current {
+    font-size: 1.4rem;
+    color: white;
+    bottom: 3rem;
+    right: 5rem;
+    position: absolute;
+    border-radius: 20px;
+    // width: 5rem;
+    text-align: center;
+    padding: .8rem 1rem;
+    background-color: rgba(62, 71, 87, 0.7);
+    z-index: 10;
+  }
 }
 
 .slide {
@@ -318,8 +334,6 @@ export default {
   &--5 {
     opacity: 0;
     width: 100%;
-
-    right: 0;
   }
 
   &-content {
@@ -387,6 +401,10 @@ export default {
     rgba(68, 116, 163, 1) 90%
   );
   color: white;
+}
+
+.color-grey {
+  color: rgba(white, 0.7);
 }
 
 .btn {
