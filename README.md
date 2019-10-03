@@ -1,29 +1,13 @@
-# tinkoff-slider
+# Cool slider inspired by Tinkoff.ru
 
-## Project setup
-```
-yarn install
-```
+- Gsap animations on board
 
-### Compiles and hot-reloads for development
-```
-yarn run serve
-```
+## TO DO
 
-### Compiles and minifies for production
-```
-yarn run build
-```
+- Add slider dots
+- Move slide to separate component?
 
-### Run your tests
-```
-yarn run test
-```
+### Feel free:
 
-### Lints and fixes files
-```
-yarn run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+- To collaborate with me to refactor and enchance this beautiful component
+- Create npm package for vue developers (don't forget to contact me)
