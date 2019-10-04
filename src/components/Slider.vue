@@ -244,7 +244,9 @@ export default {
       });
     },
     jumpToSlide(slide) {
-      console.log(slide);
+      const newArr = this.slidersArr.sort((a, b) => a.position - b.position);
+      newArr.unshift(...newArr.splice(slide - 1));
+      this.slidersArr = newArr;
     }
   }
 };
@@ -254,7 +256,7 @@ export default {
 .slider {
   display: grid;
   grid-template-columns: [button-prev-start] 75px [button-prev-end slides-start] 1fr [slides-end button-next-start] 75px [button-next-end];
-  grid-template-rows: 1fr 100px;
+  grid-template-rows: 1fr 65px;
   max-width: 110rem;
   margin: 10rem auto;
 
@@ -269,8 +271,8 @@ export default {
 
   &__dot {
     border-radius: 50%;
-    width: .8rem;
-    height: .8rem;
+    width: 0.8rem;
+    height: 0.8rem;
     background: black;
     cursor: pointer;
   }
