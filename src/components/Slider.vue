@@ -4,11 +4,11 @@
       <div
         class="slide"
         v-for="(slide, index) in sliders"
-        :key="index"
+        :key="slide.position"
         :class="[slide.background, 'slide--' + (index + 1)]"
         :ref="index"
       >
-        <div class="slide-content" :ref="'content' + index" v-if="index == 0">
+        <div class="slide-content" :ref="'content'" v-if="index == 0">
           <div class="slide-content__main">
             <div class="slide-content__product">{{ slide.product }}</div>
             <div class="slide-content__name">{{ slide.name }}</div>
@@ -104,6 +104,14 @@ export default {
       ]
     };
   },
+  updated() {
+    TweenMax.fromTo(
+      this.$refs.content,
+      0.32,
+      { opacity: 0 },
+      { opacity: 1, ease: Power3.easeOut }
+    );
+  },
   computed: {
     sliders() {
       return [
@@ -117,7 +125,7 @@ export default {
       const firstSlide = this.$refs[0];
       const secondSlide = this.$refs[1];
       const thirdSlide = this.$refs[2];
-      const content = this.$refs.content0;
+      let content = this.$refs.content;
       const updateSlides = this.updateSlides;
 
       TweenMax.to(content, 0, {
@@ -163,7 +171,7 @@ export default {
       const thirdSlide = this.$refs[2];
       const fourthSlide = this.$refs[4];
       const updateSlides = this.updateSlides;
-      const content = this.$refs.content0;
+      const content = this.$refs.content;
       const t1 = new TimelineMax();
       const t2 = new TimelineMax();
       const t3 = new TimelineMax();
@@ -173,55 +181,64 @@ export default {
         opacity: 0
       });
 
-      t1.to(firstSlide, 0, { "z-index": 3 }).to(firstSlide, 0.8, {
-        opacity: 0.8,
-        top: 20,
-        width: "96%",
-        ease: Power3.easeOut,
-        onComplete: () => {
-          TweenMax.to(firstSlide, 0, {
-            clearProps: "opacity, top, width",
-            ease: Power3.easeOut
-          });
-        }
-      });
+      // t1.to(firstSlide, 0, { "z-index": 3 }).to(firstSlide, 0.8, {
+      //   opacity: 0.8,
+      //   top: 20,
+      //   width: "96%",
+      //   ease: Power3.easeOut,
+      //   onComplete: () => {
+      //     TweenMax.set(firstSlide, 0, {
+      //       clearProps: "opacity, top, width",
+      //       ease: Power3.easeOut
+      //     });
+      //   }
+      // });
 
-      t2.to(secondSlide, 0, { "z-index": 2 }).to(secondSlide, 0.7, {
-        width: "92%",
-        opacity: 1,
-        top: 40,
-        ease: Power3.easeOut,
-        delay: 0.1,
-        onComplete: function() {
-          TweenMax.to(secondSlide, 0, {
-            clearProps: "top, opacity, width, z-index",
-            ease: Power3.easeOut
-          });
-        }
-      });
+      t1.to(firstSlide, 0, { "z-index": 3 })
+        .to(firstSlide, 0.8, {
+          opacity: 0.8,
+          top: 20,
+          width: "96%",
+          ease: Power3.easeOut
+        })
+        .to(firstSlide, 0, {
+          clearProps: "all",
+          ease: Power3.easeOut
+        });
 
-      t3.to(fourthSlide, 0, { "z-index": 5 }).to(fourthSlide, 0.7, {
-        opacity: 1,
-        ease: Power3.easeOut,
-        delay: 0.1,
-        onComplete: () => {
-          updateSlides("prev");
-          TweenMax.to(fourthSlide, 0, {
-            clearProps: "opacity",
-            ease: Power3.easeOut
-          });
-        }
-      });
+      t2.to(secondSlide, 0, { "z-index": 2 })
+        .to(secondSlide, 0.7, {
+          width: "92%",
+          opacity: 1,
+          top: 40,
+          ease: Power3.easeOut,
+          delay: 0.1
+        })
+        .to(secondSlide, 0, {
+          clearProps: "all",
+          ease: Power3.easeOut
+        });
+
+      t3.to(fourthSlide, 0, { "z-index": 5 })
+        .to(fourthSlide, 0.7, {
+          opacity: 1,
+          ease: Power3.easeOut,
+          delay: 0.1,
+          onComplete: () => {
+            updateSlides("prev");
+          }
+        })
+        .to(fourthSlide, 0, {
+          clearProps: "all",
+          ease: Power3.easeOut
+        });
 
       t4.to(thirdSlide, 0.8, {
         ease: Power3.easeOut,
-        opacity: 0.8,
-        onComplete: () => {
-          TweenMax.to(thirdSlide, 0, {
-            clearProps: "all",
-            ease: Power3.easeOut
-          });
-        }
+        opacity: 0.8
+      }).to(thirdSlide, 0, {
+        clearProps: "all",
+        ease: Power3.easeOut
       });
     },
     updateSlides(direction) {
@@ -238,10 +255,6 @@ export default {
       }
 
       this.slidersArr = sliders;
-      TweenMax.to(this.$refs.content0, 1, {
-        opacity: 1,
-        ease: Power3.easeOut
-      });
     },
     jumpToSlide(slide) {
       const newArr = this.slidersArr.sort((a, b) => a.position - b.position);
